@@ -32,8 +32,8 @@ class Game:
             if event.type == pygame.QUIT:
                 self.playing = False
 
-    def update(self):
-        pass
+    def update (self, user_input):
+        user_input = pygame.key.get_pressed()
         self.player.update(user_input)
 
     def draw(self):
