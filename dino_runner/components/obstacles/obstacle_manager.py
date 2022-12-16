@@ -8,6 +8,7 @@ from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
 
 
+
 class ObstacleManager:
   def __init__(self):
     self.obstacles = []
@@ -17,11 +18,14 @@ class ObstacleManager:
     if obstacle_type == 0:
       cactus_type = 'SMALL'
       obstacle = Cactus(cactus_type)
+
+    
     elif obstacle_type == 1:
         cactus_type = 'LARGE'
         obstacle = Cactus(cactus_type)
     else:
       obstacle = Bird()
+    
     return obstacle
 
 

@@ -10,17 +10,17 @@ class PowerUpManager:
         self.duration = random.randint(2, 4)
 
     def update(self, game):
-        self.generate_power_up(game.score.count)
+        self.generate_power_up(game.score.element)
         for power_up in self.power_ups:
             power_up.update(game.game_speed, self.power_ups)
             if game.player.dino_rect.colliderect(power_up.rect):
                 power_up.start_time = pygame.time.get_ticks() / 1000
-                game.player.has.power_up = True
+                game.player.has_power_up = True
                 game.player.type = power_up.type
                 game.player.power_time_up = power_up.start_time + self.duration
 
                 self.power_ups.pop()
-                
+
     def draw(self, screen):
         for power_up in self.power_ups:
             power_up.draw(screen)

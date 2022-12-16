@@ -12,6 +12,8 @@ from dino_runner.components.element import Element
 
 from dino_runner.components.power_ups.power_up_manager import PowerUpManager
 
+from dino_runner.components.cloud import Cloud 
+
 class Game:
     GAME_SPEED = 20
 
@@ -26,6 +28,7 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 380
         self.player = Dinosaur()
+        self.cloud = Cloud()
         self.obstacle_manager = ObstacleManager()
         self.running = False
         self.menu = Menu(self.screen)
@@ -58,6 +61,10 @@ class Game:
             if event.type == pygame.QUIT:
                 self.playing = False
 
+        sound =pygame.mixer.Sound("music.wav")
+        sound.play()
+
+
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
@@ -71,14 +78,17 @@ class Game:
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
+
         self.draw_background()
         self.player.draw(self.screen)
+        self.cloud.draw(self.screen)
         self.obstacle_manager.draw (self.screen)
         self.power_up_manager.draw(self.screen)
         self.draw_power_up_time()
         self.score.draw(self.screen)
         pygame.display.update()
         #pygame.display.flip()
+        
 
     def draw_background(self):
         image_width = BG.get_width()
@@ -95,16 +105,23 @@ class Game:
         half_screen_width = SCREEN_WIDTH // 2
 
         if self.death_count.element == 0:
-            self.menu.draw(self.screen ,"press any to start...")
-
+            self.menu.draw(self.screen, "press any to start...")
+ 
+        
+        
         else:
             self.update_highest_score()
-            self.menu.draw(self.screen, "GAME OVER, PRESS ANY KEY TO RESTART")
+            #self.menu.draw()
+            #self.menu.draw = pygame.image.load("GameOver.png").convert()
+            #self.image = pygame.image.load("GameOver.png").convert()
+            #self.menu.draw(self.screen, {pygame.image.load("GameOver.png").convert()}, 350 )
+            self.menu.draw(self.screen, "PRESS ANY KEY TO RESTART")
             self.menu.draw(self.screen, f"YOUR SCORE: {self.score.element}", half_screen_width, 350, )
             self.menu.draw(self.screen, f"HIGHTES SCORE:  {self.higest_score.element}", half_screen_width, 400, )
             self.menu.draw(self.screen, f"TOTAL DEATHS: {self.death_count.element}", half_screen_width, 450, )
 
         self.screen.blit(ICON, (half_screen_width -50, half_screen_height -140))
+        
 
         self.menu.update(self)
     
@@ -124,12 +141,12 @@ class Game:
         self.player.reset()
 
     def draw_power_up_time(self):
-        if self.player.has.power_up:
+        if self.player.has_power_up:
             time_to_show = round((self.player.power_time_up - pygame.time.get_ticks() / 1000), 2)
             if time_to_show >= 0:
-                self.menu.draw(self.screen, f"{self.player.type.capitalize()}" "enabled for{time_to_show} seconds", 550, 100)
+                self.menu.draw(self.screen, f"{self.player.type.capitalize()} enabled for{time_to_show} seconds", 550, 100)
             else:
                 self.player.has_power_up = False
                 self.player.type = DEFAULT_TYPE
 
-
+   

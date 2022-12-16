@@ -27,7 +27,7 @@ class Menu:
         screen.fill((255,255,255))
 
     def draw(self, screen , message, x = HALF_SCREEN_WIDTH, y= HALF_SCREEN_HEIGHT):
-        text = self.font.render(message, True (0, 0, 0))
+        text = self.font.render(message, True, (0, 0, 0))
         text_rect = text.get_rect()
         text_rect.center = (x, y)
-        screen.blit(text_rect, text)
+        screen.blit( text, text_rect)
